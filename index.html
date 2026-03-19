@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Zeeshan – DesiLink</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --card: #13131a;
+    --card2: #1a1a24;
+    --border: #2a2a3a;
+    --accent: #ff6b2b;
+    --accent2: #ffb347;
+    --green: #00e676;
+    --text: #f0f0f5;
+    --muted: #7a7a9a;
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── TABS ── */
+  .app { display: flex; flex-direction: column; min-height: 100vh; }
+
+  .tabs {
+    display: flex;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+
+  .tab {
+    flex: 1; padding: 16px 8px; text-align: center;
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 13px; letter-spacing: .5px;
+    cursor: pointer; color: var(--muted);
+    border-bottom: 3px solid transparent;
+    transition: all .25s;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab:hover:not(.active) { color: var(--text); }
+
+  /* ── PAGES ── */
+  .page { display: none; flex: 1; }
+  .page.active { display: block; }
+
+  /* ── BUILDER PAGE ── */
+  .builder { padding: 20px; max-width: 480px; margin: 0 auto; }
+
+  .section-title {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 12px; margin-top: 24px;
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  /* Profile card */
+  .profile-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .avatar-wrap {
+    position: relative; flex-shrink: 0;
+  }
+  .avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; cursor: pointer; overflow: hidden;
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .avatar-edit {
+    position: absolute; bottom: 0; right: 0;
+    background: var(--accent); border-radius: 50%;
+    width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; cursor: pointer;
+  }
+
+  .profile-info { flex: 1; }
+  .profile-info input {
+    background: transparent; border: none; outline: none;
+    color: var(--text); width: 100%;
+    font-family: 'Syne', sans-serif;
+  }
+  .profile-info input:first-child {
+    font-size: 18px; font-weight: 800; margin-bottom: 4px;
+  }
+  .profile-info input:last-child {
+    font-size: 13px; color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .profile-info input::placeholder { color: var(--muted); opacity: .6; }
+
+  /* Input field */
+  .field {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .field input, .field textarea, .field select {
+    flex: 1; background: transparent; border: none; outline: none;
+    color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+  }
+  .field textarea { resize: none; height: 60px; line-height: 1.5; }
+  .field select option { background: var(--card2); }
+  .field-icon { font-size: 18px; }
+  .field input::placeholder,
+  .field textarea::placeholder { color: var(--muted); opacity: .7; }
+
+  /* Link item */
+  .link-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .link-item-inputs { flex: 1; }
+  .link-item-inputs input {
+    background: transparent; border: none; outline: none;
+    color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 14px; width: 100%; display: block;
+  }
+  .link-item-inputs input:first-child { margin-bottom: 4px; font-weight: 500; }
+  .link-item-inputs input:last-child { font-size: 12px; color: var(--muted); }
+  .link-item-inputs input::placeholder { color: var(--muted); opacity: .6; }
+  .del-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--muted); font-size: 18px; padding: 4px;
+    transition: color .2s;
+  }
+  .del-btn:hover { color: #ff4444; }
+
+  /* Product item */
+  .product-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+  }
+  .product-row { display: flex; gap: 10px; margin-bottom: 8px; }
+  .product-row input, .product-row select {
+    flex: 1; background: var(--card2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px;
+    color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 13px; outline: none;
+  }
+  .product-row select option { background: var(--card2); }
+  .product-row input::placeholder { color: var(--muted); opacity: .6; }
+  .product-upi {
+    display: flex; gap: 8px; align-items: center;
+  }
+  .product-upi input {
+    flex: 1; background: var(--card2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px;
+    color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 13px; outline: none;
+  }
+  .product-upi input::placeholder { color: var(--muted); opacity: .6; }
+  .upi-badge {
+    background: linear-gradient(135deg, #6c3fff, #a855f7);
+    color: white; font-size: 10px; font-weight: 700;
+    padding: 4px 8px; border-radius: 6px; letter-spacing: .5px;
+    white-space: nowrap;
+  }
+  .product-del { text-align: right; }
+
+  /* Buttons */
+  .btn {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; width: 100%; padding: 14px;
+    border-radius: 12px; font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 14px; cursor: pointer;
+    border: none; transition: all .2s; margin-bottom: 8px;
+  }
+  .btn-outline {
+    background: transparent;
+    border: 1.5px dashed var(--border);
+    color: var(--muted);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white;
+  }
+  .btn-primary:hover { opacity: .9; transform: translateY(-1px); }
+  .btn-green {
+    background: var(--green);
+    color: #000;
+  }
+  .btn-green:hover { opacity: .9; }
+
+  /* ── PREVIEW PAGE ── */
+  .preview-wrap {
+    background: #060608;
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 0 0 60px;
+  }
+
+  .preview-header {
+    width: 100%; max-width: 420px;
+    padding: 48px 24px 24px;
+    text-align: center;
+  }
+  .preview-avatar {
+    width: 88px; height: 88px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    margin: 0 auto 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; overflow: hidden;
+    box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent);
+  }
+  .preview-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .preview-name {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 22px; margin-bottom: 6px;
+  }
+  .preview-bio {
+    font-size: 14px; color: var(--muted); line-height: 1.5;
+    max-width: 300px; margin: 0 auto;
+  }
+
+  .preview-body { width: 100%; max-width: 420px; padding: 0 20px; }
+
+  .preview-section-label {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--muted); margin: 24px 0 10px;
+  }
+
+  /* Preview link button */
+  .preview-link {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 16px 18px;
+    margin-bottom: 8px; cursor: pointer;
+    transition: all .2s; text-decoration: none; color: var(--text);
+  }
+  .preview-link:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255,107,43,.15);
+  }
+  .preview-link-icon { font-size: 20px; }
+  .preview-link-text { flex: 1; font-size: 15px; font-weight: 500; }
+  .preview-link-arrow { color: var(--muted); font-size: 16px; }
+
+  /* Preview product card */
+  .preview-product {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 18px;
+    margin-bottom: 10px;
+  }
+  .preview-product-top {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; margin-bottom: 12px;
+  }
+  .preview-product-name {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 16px; flex: 1;
+  }
+  .preview-product-price {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 18px; color: var(--accent);
+  }
+  .preview-product-type {
+    font-size: 11px; color: var(--muted); margin-bottom: 12px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .pay-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: linear-gradient(135deg, #6c3fff, #a855f7);
+    color: white; border: none; border-radius: 10px;
+    padding: 12px 18px; font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 13px; cursor: pointer;
+    transition: all .2s; width: 100%;
+  }
+  .pay-btn:hover { opacity: .9; transform: translateY(-1px); }
+
+  /* UPI Modal */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.85); backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 999; padding: 20px;
+    opacity: 0; pointer-events: none; transition: opacity .25s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 28px;
+    max-width: 340px; width: 100%;
+    transform: translateY(20px); transition: transform .25s;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal-title {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 18px; margin-bottom: 6px;
+  }
+  .modal-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+  .upi-display {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+    text-align: center; margin-bottom: 16px;
+  }
+  .upi-id {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 16px; color: var(--accent2); margin-bottom: 4px;
+  }
+  .upi-hint { font-size: 12px; color: var(--muted); }
+
+  .amount-display {
+    background: linear-gradient(135deg, rgba(255,107,43,.15), rgba(255,179,71,.1));
+    border: 1px solid rgba(255,107,43,.3);
+    border-radius: 12px; padding: 14px;
+    text-align: center; margin-bottom: 16px;
+  }
+  .amount-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .amount-value {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 24px; color: var(--accent);
+  }
+
+  .upi-apps {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 8px; margin-bottom: 16px;
+  }
+  .upi-app {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 6px;
+    text-align: center; cursor: pointer; transition: all .2s;
+  }
+  .upi-app:hover { border-color: var(--accent); }
+  .upi-app-icon { font-size: 22px; margin-bottom: 4px; }
+  .upi-app-name { font-size: 10px; color: var(--muted); }
+
+  .copy-upi {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    background: transparent; border: 1.5px solid var(--border);
+    color: var(--text); border-radius: 10px; padding: 11px;
+    font-family: 'Syne', sans-serif; font-weight: 600;
+    font-size: 13px; cursor: pointer; width: 100%; margin-bottom: 10px;
+    transition: all .2s;
+  }
+  .copy-upi:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  .modal-close {
+    background: none; border: none; color: var(--muted);
+    font-size: 13px; cursor: pointer; width: 100%; padding: 8px;
+    font-family: 'DM Sans', sans-serif; transition: color .2s;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  /* ── SHARE PAGE ── */
+  .share-page { padding: 24px; max-width: 480px; margin: 0 auto; }
+
+  .share-url-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px;
+    margin-bottom: 16px; text-align: center;
+  }
+  .share-url-label { font-size: 11px; color: var(--muted); margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; }
+  .share-url-value {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 15px; color: var(--accent2);
+    word-break: break-all;
+  }
+
+  .share-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .share-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px;
+    text-align: center; cursor: pointer; transition: all .2s;
+  }
+  .share-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .share-card-icon { font-size: 28px; margin-bottom: 8px; }
+  .share-card-name {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 13px;
+  }
+  .share-card-desc { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  /* Stats */
+  .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 16px; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px; text-align: center;
+  }
+  .stat-value {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 22px; color: var(--accent);
+  }
+  .stat-label { font-size: 10px; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: .5px; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--green); color: #000;
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 13px; padding: 12px 20px; border-radius: 40px;
+    opacity: 0; transition: all .3s; pointer-events: none; z-index: 9999;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Empty states */
+  .empty {
+    text-align: center; padding: 30px 20px;
+    color: var(--muted); font-size: 14px;
+  }
+  .empty-icon { font-size: 32px; margin-bottom: 8px; }
+
+  /* Hidden file input */
+  #avatar-upload { display: none; }
+
+  /* Bottom nav spacing */
+  .bottom-space { height: 20px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('builder')">✏️ Build</button>
+    <button class="tab" onclick="switchTab('preview')">👁️ Preview</button>
+    <button class="tab" onclick="switchTab('share')">🚀 Share</button>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 1 — BUILDER
+  ══════════════════════════════════ -->
+  <div id="tab-builder" class="page active">
+    <div class="builder">
+
+      <!-- Profile -->
+      <div class="section-title">Your Profile</div>
+      <div class="profile-card">
+        <div class="avatar-wrap">
+          <div class="avatar" id="avatar-display" onclick="document.getElementById('avatar-upload').click()">
+            🧑
+          </div>
+          <div class="avatar-edit">📷</div>
+          <input type="file" id="avatar-upload" accept="image/*" onchange="handleAvatar(event)"/>
+        </div>
+        <div class="profile-info">
+          <input type="text" id="profile-name" placeholder="Your Name" value="Zeeshan"/>
+          <input type="text" id="profile-bio" placeholder="Short bio — what you do"/>
+        </div>
+      </div>
+
+      <!-- Theme colour -->
+      <div class="field">
+        <span class="field-icon">🎨</span>
+        <select id="theme-select" onchange="applyTheme(this.value)" style="flex:1">
+          <option value="orange">🔥 Orange Fire (Default)</option>
+          <option value="purple">💜 Purple Vibes</option>
+          <option value="green">💚 Green Fresh</option>
+          <option value="blue">💙 Blue Cool</option>
+          <option value="pink">🩷 Pink Desi</option>
+        </select>
+      </div>
+
+      <!-- Links -->
+      <div class="section-title">Your Links</div>
+      <div id="links-container"></div>
+      <button class="btn btn-outline" onclick="addLink()">＋ Add Link</button>
+
+      <!-- Products -->
+      <div class="section-title">Products to Sell</div>
+      <div id="products-container"></div>
+      <button class="btn btn-outline" onclick="addProduct()">＋ Add Product</button>
+
+      <!-- Save -->
+      <div style="margin-top:24px">
+        <button class="btn btn-primary" onclick="saveAndPreview()">💾 Save & Preview</button>
+      </div>
+
+      <div class="bottom-space"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 2 — PREVIEW
+  ══════════════════════════════════ -->
+  <div id="tab-preview" class="page">
+    <div class="preview-wrap" id="preview-root">
+      <!-- Generated by JS -->
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 3 — SHARE
+  ══════════════════════════════════ -->
+  <div id="tab-share" class="page">
+    <div class="share-page">
+
+      <div class="section-title">Your Page Stats</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-views">0</div>
+          <div class="stat-label">Views</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-clicks">0</div>
+          <div class="stat-label">Clicks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-products">0</div>
+          <div class="stat-label">Products</div>
+        </div>
+      </div>
+
+      <div class="section-title">Your Link</div>
+      <div class="share-url-box">
+        <div class="share-url-label">Your DesiLink URL</div>
+        <div class="share-url-value" id="share-url-display">Save your profile first →</div>
+      </div>
+
+      <button class="btn btn-primary" onclick="copyLink()">📋 Copy Link</button>
+
+      <div class="section-title">Share On</div>
+      <div class="share-grid">
+        <div class="share-card" onclick="shareOn('instagram')">
+          <div class="share-card-icon">📸</div>
+          <div class="share-card-name">Instagram</div>
+          <div class="share-card-desc">Copy for bio</div>
+        </div>
+        <div class="share-card" onclick="shareOn('whatsapp')">
+          <div class="share-card-icon">💬</div>
+          <div class="share-card-name">WhatsApp</div>
+          <div class="share-card-desc">Share to contacts</div>
+        </div>
+        <div class="share-card" onclick="shareOn('twitter')">
+          <div class="share-card-icon">🐦</div>
+          <div class="share-card-name">Twitter/X</div>
+          <div class="share-card-desc">Post your link</div>
+        </div>
+        <div class="share-card" onclick="shareOn('telegram')">
+          <div class="share-card-icon">✈️</div>
+          <div class="share-card-name">Telegram</div>
+          <div class="share-card-desc">Share to group</div>
+        </div>
+      </div>
+
+      <div class="section-title">Download QR Code</div>
+      <button class="btn btn-outline" onclick="downloadQR()">📱 Generate QR Code</button>
+
+      <div class="bottom-space"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- UPI Payment Modal -->
+<div class="modal-overlay" id="upi-modal">
+  <div class="modal">
+    <div class="modal-title">💳 Pay via UPI</div>
+    <div class="modal-subtitle" id="modal-product-name">Product Name</div>
+
+    <div class="amount-display">
+      <div class="amount-label">Amount to Pay</div>
+      <div class="amount-value" id="modal-amount">₹0</div>
+    </div>
+
+    <div class="upi-display">
+      <div class="upi-id" id="modal-upi-id">yourname@upi</div>
+      <div class="upi-hint">UPI ID — copy & pay in any app</div>
+    </div>
+
+    <div class="upi-apps">
+      <div class="upi-app" onclick="openUpiApp('gpay')">
+        <div class="upi-app-icon">🟢</div>
+        <div class="upi-app-name">GPay</div>
+      </div>
+      <div class="upi-app" onclick="openUpiApp('phonepe')">
+        <div class="upi-app-icon">🟣</div>
+        <div class="upi-app-name">PhonePe</div>
+      </div>
+      <div class="upi-app" onclick="openUpiApp('paytm')">
+        <div class="upi-app-icon">🔵</div>
+        <div class="upi-app-name">Paytm</div>
+      </div>
+      <div class="upi-app" onclick="openUpiApp('bhim')">
+        <div class="upi-app-icon">🇮🇳</div>
+        <div class="upi-app-name">BHIM</div>
+      </div>
+    </div>
+
+    <button class="copy-upi" onclick="copyUpiId()">📋 Copy UPI ID</button>
+    <button class="modal-close" onclick="closeModal()">✕ Close</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ──
+let state = {
+  name: '', bio: '', avatarSrc: '',
+  links: [], products: [],
+  theme: 'orange',
+  clicks: 0
+};
+
+let currentUpiProduct = null;
+
+// ── THEMES ──
+const themes = {
+  orange: { accent: '#ff6b2b', accent2: '#ffb347' },
+  purple: { accent: '#8b5cf6', accent2: '#c084fc' },
+  green:  { accent: '#00c853', accent2: '#69f0ae' },
+  blue:   { accent: '#2979ff', accent2: '#82b1ff' },
+  pink:   { accent: '#e91e8c', accent2: '#f48fb1' },
+};
+
+function applyTheme(name) {
+  const t = themes[name] || themes.orange;
+  document.documentElement.style.setProperty('--accent', t.accent);
+  document.documentElement.style.setProperty('--accent2', t.accent2);
+  state.theme = name;
+}
+
+// ── TABS ──
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    t.classList.toggle('active', ['builder','preview','share'][i] === name);
+  });
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'preview') renderPreview();
+  if (name === 'share') renderShare();
+}
+
+// ── AVATAR ──
+function handleAvatar(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    state.avatarSrc = ev.target.result;
+    document.getElementById('avatar-display').innerHTML = `<img src="${ev.target.result}" alt="avatar"/>`;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── LINKS ──
+function addLink() {
+  const id = Date.now();
+  state.links.push({ id, title: '', url: '' });
+  renderLinks();
+}
+
+function removeLink(id) {
+  state.links = state.links.filter(l => l.id !== id);
+  renderLinks();
+}
+
+function renderLinks() {
+  const c = document.getElementById('links-container');
+  if (state.links.length === 0) {
+    c.innerHTML = `<div class="empty"><div class="empty-icon">🔗</div>No links yet. Add your first link!</div>`;
+    return;
+  }
+  c.innerHTML = state.links.map(l => `
+    <div class="link-item">
+      <span class="field-icon">🔗</span>
+      <div class="link-item-inputs">
+        <input type="text" placeholder="Button Label (e.g. My YouTube)" value="${l.title}"
+          oninput="updateLink(${l.id},'title',this.value)"/>
+        <input type="text" placeholder="https://..." value="${l.url}"
+          oninput="updateLink(${l.id},'url',this.value)"/>
+      </div>
+      <button class="del-btn" onclick="removeLink(${l.id})">🗑️</button>
+    </div>
+  `).join('');
+}
+
+function updateLink(id, field, val) {
+  const l = state.links.find(x => x.id === id);
+  if (l) l[field] = val;
+}
+
+// ── PRODUCTS ──
+function addProduct() {
+  const id = Date.now();
+  state.products.push({ id, name: '', price: '', type: 'Digital Product', upi: '' });
+  renderProducts();
+}
+
+function removeProduct(id) {
+  state.products = state.products.filter(p => p.id !== id);
+  renderProducts();
+}
+
+function renderProducts() {
+  const c = document.getElementById('products-container');
+  if (state.products.length === 0) {
+    c.innerHTML = `<div class="empty"><div class="empty-icon">🛍️</div>No products yet. Add something to sell!</div>`;
+    return;
+  }
+  c.innerHTML = state.products.map(p => `
+    <div class="product-item">
+      <div class="product-row">
+        <input type="text" placeholder="Product Name" value="${p.name}"
+          oninput="updateProduct(${p.id},'name',this.value)"/>
+        <input type="text" placeholder="₹ Price" value="${p.price}" style="max-width:100px"
+          oninput="updateProduct(${p.id},'price',this.value)"/>
+      </div>
+      <div class="product-row">
+        <select onchange="updateProduct(${p.id},'type',this.value)">
+          <option ${p.type==='Digital Product'?'selected':''}>Digital Product</option>
+          <option ${p.type==='Physical Product'?'selected':''}>Physical Product</option>
+          <option ${p.type==='Service'?'selected':''}>Service</option>
+          <option ${p.type==='Course'?'selected':''}>Course</option>
+          <option ${p.type==='Consultation'?'selected':''}>Consultation</option>
+        </select>
+      </div>
+      <div class="product-upi">
+        <input type="text" placeholder="Your UPI ID (e.g. name@gpay)" value="${p.upi}"
+          oninput="updateProduct(${p.id},'upi',this.value)"/>
+        <span class="upi-badge">UPI</span>
+      </div>
+      <div class="product-del" style="margin-top:10px">
+        <button class="del-btn" onclick="removeProduct(${p.id})" style="font-size:12px">🗑️ Remove</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateProduct(id, field, val) {
+  const p = state.products.find(x => x.id === id);
+  if (p) p[field] = val;
+}
+
+// ── SAVE & PREVIEW ──
+function saveAndPreview() {
+  state.name = document.getElementById('profile-name').value;
+  state.bio = document.getElementById('profile-bio').value;
+  // Sync links & products from DOM inputs
+  state.links.forEach(l => {
+    const els = document.querySelectorAll('.link-item');
+    // already updated via oninput
+  });
+  showToast('✅ Saved! Switching to preview…');
+  setTimeout(() => switchTab('preview'), 800);
+}
+
+// ── RENDER PREVIEW ──
+function renderPreview() {
+  state.name = document.getElementById('profile-name').value || 'Your Name';
+  state.bio = document.getElementById('profile-bio').value || 'Add a short bio';
+
+  const avatarHTML = state.avatarSrc
+    ? `<img src="${state.avatarSrc}" alt="avatar"/>`
+    : '🧑';
+
+  const linksHTML = state.links.length === 0
+    ? '<div class="empty" style="padding:16px 0"><div class="empty-icon">🔗</div>Add links in the Build tab</div>'
+    : state.links.map(l => `
+        <a class="preview-link" href="${l.url || '#'}" target="_blank"
+           onclick="trackClick()">
+          <span class="preview-link-icon">🔗</span>
+          <span class="preview-link-text">${l.title || 'Untitled Link'}</span>
+          <span class="preview-link-arrow">›</span>
+        </a>
+      `).join('');
+
+  const productsHTML = state.products.length === 0
+    ? '<div class="empty" style="padding:16px 0"><div class="empty-icon">🛍️</div>Add products in the Build tab</div>'
+    : state.products.map(p => `
+        <div class="preview-product">
+          <div class="preview-product-top">
+            <div class="preview-product-name">${p.name || 'Product'}</div>
+            <div class="preview-product-price">₹${p.price || '0'}</div>
+          </div>
+          <div class="preview-product-type">${p.type}</div>
+          <button class="pay-btn" onclick="openPayModal(${p.id})">
+            🇮🇳 Pay via UPI
+          </button>
+        </div>
+      `).join('');
+
+  document.getElementById('preview-root').innerHTML = `
+    <div class="preview-header">
+      <div class="preview-avatar">${avatarHTML}</div>
+      <div class="preview-name">${state.name}</div>
+      <div class="preview-bio">${state.bio}</div>
+    </div>
+    <div class="preview-body">
+      ${state.links.length > 0 ? '<div class="preview-section-label">🔗 Links</div>' : ''}
+      ${linksHTML}
+      ${state.products.length > 0 ? '<div class="preview-section-label">🛍️ Products</div>' : ''}
+      ${productsHTML}
+      <div style="text-align:center;margin-top:32px;font-size:11px;color:var(--muted)">
+        Made with DesiLink 🇮🇳
+      </div>
+    </div>
+  `;
+
+  // track view
+  state.clicks++;
+  document.getElementById('stat-views').textContent = state.clicks;
+  document.getElementById('stat-products').textContent = state.products.length;
+}
+
+function trackClick() {
+  const el = document.getElementById('stat-clicks');
+  el.textContent = parseInt(el.textContent || 0) + 1;
+}
+
+// ── UPI MODAL ──
+function openPayModal(productId) {
+  const p = state.products.find(x => x.id === productId);
+  if (!p) return;
+  currentUpiProduct = p;
+  document.getElementById('modal-product-name').textContent = p.name || 'Product';
+  document.getElementById('modal-amount').textContent = `₹${p.price || '0'}`;
+  document.getElementById('modal-upi-id').textContent = p.upi || 'yourname@upi';
+  document.getElementById('upi-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('upi-modal').classList.remove('open');
+  currentUpiProduct = null;
+}
+
+function copyUpiId() {
+  const upi = currentUpiProduct?.upi || '';
+  if (!upi) { showToast('⚠️ No UPI ID set'); return; }
+  navigator.clipboard.writeText(upi).then(() => showToast('📋 UPI ID copied!'));
+}
+
+function openUpiApp(app) {
+  if (!currentUpiProduct) return;
+  const upi = currentUpiProduct.upi || '';
+  const amount = currentUpiProduct.price || '0';
+  const name = encodeURIComponent(currentUpiProduct.name || 'Product');
+  // Standard UPI deep link
+  const upiUrl = `upi://pay?pa=${encodeURIComponent(upi)}&pn=${name}&am=${amount}&cu=INR`;
+  window.location.href = upiUrl;
+  showToast('Opening UPI app…');
+}
+
+// ── SHARE ──
+function renderShare() {
+  document.getElementById('share-url-display').textContent = `https://zeeshan-desilink.github.io`;
+}
+
+function copyLink() {
+  const url = document.getElementById('share-url-display').textContent;
+  navigator.clipboard.writeText(url).then(() => showToast('📋 Link copied!'));
+}
+
+function shareOn(platform) {
+  const url = document.getElementById('share-url-display').textContent;
+  const text = `Check out my page: ${url}`;
+  const urls = {
+    instagram: null, // Instagram doesn't allow direct share URL; just copy
+    whatsapp: `https://wa.me/?text=${encodeURIComponent(text)}`,
+    twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,
+    telegram: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent('Check out my page!')}`,
+  };
+  if (platform === 'instagram') {
+    navigator.clipboard.writeText(url).then(() => showToast('📋 Link copied — paste in Instagram bio!'));
+    return;
+  }
+  if (urls[platform]) window.open(urls[platform], '_blank');
+}
+
+function downloadQR() {
+  showToast('📱 QR feature coming soon!');
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── INIT ──
+renderLinks();
+renderProducts();
+</script>
+</body>
+</html>
