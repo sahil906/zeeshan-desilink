@@ -3,744 +3,384 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Zeeshan – DesiLink</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<title>Zeeshan – Link in Bio</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@300;400;500;700&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --card: #13131a;
-    --card2: #1a1a24;
-    --border: #2a2a3a;
-    --accent: #ff6b2b;
-    --accent2: #ffb347;
-    --green: #00e676;
-    --text: #f0f0f5;
-    --muted: #7a7a9a;
-    --radius: 16px;
-  }
+:root {
+  --bg: #080810;
+  --card: #0f0f1a;
+  --card2: #16162a;
+  --border: #1e1e35;
+  --accent: #ff5f40;
+  --accent2: #ff9d6f;
+  --glow: rgba(255,95,64,0.15);
+  --text: #eeeef5;
+  --muted: #6b6b90;
+  --green: #00e676;
+  --radius: 18px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Satoshi',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+body::before {
+  content:''; position:fixed; inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(255,95,64,0.12) 0%,transparent 70%),
+             radial-gradient(ellipse 60% 40% at 80% 80%,rgba(99,60,255,0.08) 0%,transparent 60%);
+  pointer-events:none; z-index:0;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* ── VISITOR ── */
+#visitor-page { position:relative; z-index:1; max-width:480px; margin:0 auto; padding:0 20px 80px; }
+.v-header { text-align:center; padding:52px 0 28px; }
+.v-avatar {
+  width:96px; height:96px; border-radius:50%;
+  margin:0 auto 18px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex; align-items:center; justify-content:center;
+  font-size:42px; overflow:hidden;
+  box-shadow:0 0 0 3px var(--bg),0 0 0 5px rgba(255,95,64,0.4),0 20px 60px rgba(255,95,64,0.2);
+  animation:fadeUp .6s .1s ease both;
+}
+.v-avatar img { width:100%; height:100%; object-fit:cover; }
+.v-name { font-family:'Clash Display',sans-serif; font-size:26px; font-weight:700; margin-bottom:8px; animation:fadeUp .6s .2s ease both; }
+.v-bio { font-size:14px; color:var(--muted); line-height:1.6; max-width:280px; margin:0 auto; animation:fadeUp .6s .25s ease both; }
+.v-socials { display:flex; justify-content:center; gap:10px; margin-top:18px; animation:fadeUp .6s .3s ease both; flex-wrap:wrap; }
+.v-social { width:44px; height:44px; border-radius:12px; background:var(--card); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:19px; cursor:pointer; text-decoration:none; transition:all .2s; }
+.v-social:hover { border-color:var(--accent); transform:translateY(-3px); box-shadow:0 8px 20px var(--glow); }
+.v-label { font-size:10px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--muted); margin:26px 0 10px; }
+.v-link { display:flex; align-items:center; gap:14px; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px 20px; margin-bottom:10px; cursor:pointer; transition:all .22s; text-decoration:none; color:var(--text); animation:fadeUp .5s ease both; }
+.v-link:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:0 10px 30px var(--glow); background:var(--card2); }
+.v-link-emoji { font-size:20px; }
+.v-link-text { flex:1; font-size:15px; font-weight:500; }
+.v-link-arr { color:var(--muted); font-size:18px; }
+.v-product { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:20px; margin-bottom:10px; animation:fadeUp .5s ease both; }
+.v-product-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:5px; }
+.v-product-name { font-family:'Clash Display',sans-serif; font-size:17px; font-weight:600; flex:1; }
+.v-product-price { font-family:'Clash Display',sans-serif; font-size:20px; font-weight:700; color:var(--accent); }
+.v-product-type { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:14px; }
+.v-pay-btn { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:13px; background:linear-gradient(135deg,#5b21b6,#7c3aed); color:white; border:none; border-radius:12px; font-family:'Clash Display',sans-serif; font-size:14px; font-weight:600; cursor:pointer; transition:.2s; }
+.v-pay-btn:hover { opacity:.9; transform:translateY(-1px); }
+.v-empty { text-align:center; padding:16px; color:var(--muted); font-size:14px; }
+.v-footer { text-align:center; margin-top:40px; font-size:11px; color:var(--muted); }
+.v-footer span { color:var(--accent); }
+.admin-trigger { position:fixed; bottom:0; right:0; width:70px; height:70px; cursor:pointer; z-index:50; opacity:0; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
+/* ── ADMIN ── */
+#admin-page { display:none; position:relative; z-index:1; }
+.adm-header { background:var(--card); border-bottom:1px solid var(--border); padding:15px 20px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+.adm-title { font-family:'Clash Display',sans-serif; font-size:16px; font-weight:700; }
+.adm-badge { background:var(--accent); color:white; font-size:10px; font-weight:700; padding:3px 8px; border-radius:20px; letter-spacing:1px; }
+.back-btn { background:none; border:none; color:var(--muted); font-size:13px; cursor:pointer; font-family:'Satoshi',sans-serif; transition:.2s; }
+.back-btn:hover { color:var(--text); }
+.adm-body { max-width:480px; margin:0 auto; padding:20px; }
+.a-sec { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin:24px 0 12px; }
+.a-sec:first-child { margin-top:0; }
+.a-profile { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px; display:flex; align-items:center; gap:14px; margin-bottom:8px; }
+.a-av { width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:flex; align-items:center; justify-content:center; font-size:24px; cursor:pointer; overflow:hidden; flex-shrink:0; position:relative; }
+.a-av img { width:100%; height:100%; object-fit:cover; }
+.a-av-ov { position:absolute; inset:0; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center; font-size:14px; opacity:0; transition:.2s; border-radius:50%; }
+.a-av:hover .a-av-ov { opacity:1; }
+.a-ins { flex:1; }
+.a-ins input { background:transparent; border:none; outline:none; color:var(--text); width:100%; font-family:'Satoshi',sans-serif; display:block; }
+.a-ins input:first-child { font-family:'Clash Display',sans-serif; font-size:16px; font-weight:700; margin-bottom:5px; }
+.a-ins input:last-child { font-size:13px; color:var(--muted); }
+.a-ins input::placeholder { color:var(--muted); opacity:.6; }
+.a-field { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px 15px; display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.a-field input { flex:1; background:transparent; border:none; outline:none; color:var(--text); font-family:'Satoshi',sans-serif; font-size:14px; }
+.a-field input::placeholder { color:var(--muted); opacity:.6; }
+.a-fi { font-size:16px; }
+.a-link-row { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px 15px; display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.a-link-ins { flex:1; }
+.a-link-ins input { background:transparent; border:none; outline:none; color:var(--text); font-family:'Satoshi',sans-serif; font-size:14px; width:100%; display:block; }
+.a-link-ins input:first-child { margin-bottom:5px; font-weight:500; }
+.a-link-ins input:last-child { font-size:12px; color:var(--muted); }
+.a-link-ins input::placeholder { color:var(--muted); opacity:.6; }
+.a-prod-row { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:13px 15px; margin-bottom:8px; }
+.a-prod-r { display:flex; gap:8px; margin-bottom:8px; }
+.a-prod-r input,.a-prod-r select { flex:1; background:var(--card2); border:1px solid var(--border); border-radius:8px; padding:9px 11px; color:var(--text); font-family:'Satoshi',sans-serif; font-size:13px; outline:none; }
+.a-prod-r select option { background:var(--card2); }
+.a-prod-r input::placeholder { color:var(--muted); opacity:.6; }
+.a-upi-r { display:flex; gap:8px; align-items:center; }
+.a-upi-r input { flex:1; background:var(--card2); border:1px solid var(--border); border-radius:8px; padding:9px 11px; color:var(--text); font-family:'Satoshi',sans-serif; font-size:13px; outline:none; }
+.a-upi-r input::placeholder { color:var(--muted); opacity:.6; }
+.upi-badge { background:linear-gradient(135deg,#5b21b6,#7c3aed); color:white; font-size:10px; font-weight:700; padding:4px 8px; border-radius:6px; white-space:nowrap; }
+.btn { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:14px; border-radius:12px; font-family:'Clash Display',sans-serif; font-weight:600; font-size:14px; cursor:pointer; border:none; transition:all .2s; margin-bottom:8px; }
+.btn-dash { background:transparent; border:1.5px dashed var(--border); color:var(--muted); }
+.btn-dash:hover { border-color:var(--accent); color:var(--accent); }
+.btn-primary { background:linear-gradient(135deg,var(--accent),var(--accent2)); color:white; }
+.btn-primary:hover { opacity:.9; transform:translateY(-1px); }
+.del-btn { background:none; border:none; cursor:pointer; color:var(--muted); font-size:16px; padding:4px; transition:.2s; }
+.del-btn:hover { color:#ff4444; }
 
-  /* ── TABS ── */
-  .app { display: flex; flex-direction: column; min-height: 100vh; }
+/* ── PASSWORD ── */
+#pw-screen { position:fixed; inset:0; background:rgba(8,8,16,.96); backdrop-filter:blur(10px); display:none; align-items:center; justify-content:center; z-index:200; padding:20px; }
+#pw-screen.open { display:flex; }
+.pw-box { background:var(--card2); border:1px solid var(--border); border-radius:20px; padding:32px; max-width:300px; width:100%; text-align:center; }
+.pw-icon { font-size:36px; margin-bottom:12px; }
+.pw-title { font-family:'Clash Display',sans-serif; font-size:20px; font-weight:700; margin-bottom:5px; }
+.pw-sub { font-size:13px; color:var(--muted); margin-bottom:20px; }
+.pw-inp { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:13px; color:var(--text); font-family:'Satoshi',sans-serif; font-size:16px; outline:none; text-align:center; letter-spacing:6px; margin-bottom:12px; }
+.pw-inp::placeholder { letter-spacing:0; color:var(--muted); opacity:.5; }
+.pw-btn { width:100%; padding:13px; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:white; border:none; border-radius:10px; font-family:'Clash Display',sans-serif; font-weight:700; font-size:14px; cursor:pointer; }
+.pw-err { font-size:12px; color:#ff4444; margin-top:8px; display:none; }
 
-  .tabs {
-    display: flex;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    position: sticky; top: 0; z-index: 100;
-  }
+/* ── UPI MODAL ── */
+.m-overlay { position:fixed; inset:0; background:rgba(0,0,0,.85); backdrop-filter:blur(8px); display:flex; align-items:flex-end; justify-content:center; z-index:300; opacity:0; pointer-events:none; transition:.25s; padding:16px; }
+.m-overlay.open { opacity:1; pointer-events:all; }
+.m-box { background:var(--card2); border:1px solid var(--border); border-radius:24px 24px 18px 18px; padding:26px; width:100%; max-width:420px; transform:translateY(40px); transition:.25s; }
+.m-overlay.open .m-box { transform:translateY(0); }
+.m-title { font-family:'Clash Display',sans-serif; font-size:20px; font-weight:700; margin-bottom:4px; }
+.m-sub { font-size:13px; color:var(--muted); margin-bottom:18px; }
+.m-amount { background:linear-gradient(135deg,rgba(255,95,64,.12),rgba(255,157,111,.08)); border:1px solid rgba(255,95,64,.25); border-radius:14px; padding:15px; text-align:center; margin-bottom:14px; }
+.m-amount-lbl { font-size:11px; color:var(--muted); margin-bottom:3px; }
+.m-amount-val { font-family:'Clash Display',sans-serif; font-size:28px; font-weight:700; color:var(--accent); }
+.m-upi { background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:13px; text-align:center; margin-bottom:14px; }
+.m-upi-val { font-family:'Clash Display',sans-serif; font-size:16px; font-weight:700; color:#c4b5fd; margin-bottom:3px; }
+.m-upi-hint { font-size:11px; color:var(--muted); }
+.m-apps { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px; }
+.m-app { background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:10px 6px; text-align:center; cursor:pointer; transition:.2s; }
+.m-app:hover { border-color:var(--accent); }
+.m-app-icon { font-size:22px; margin-bottom:3px; }
+.m-app-name { font-size:10px; color:var(--muted); }
+.m-copy { width:100%; padding:12px; background:transparent; border:1.5px solid var(--border); border-radius:10px; color:var(--text); font-family:'Clash Display',sans-serif; font-weight:600; font-size:13px; cursor:pointer; margin-bottom:8px; transition:.2s; display:flex; align-items:center; justify-content:center; gap:6px; }
+.m-copy:hover { border-color:#c4b5fd; color:#c4b5fd; }
+.m-close { width:100%; padding:9px; background:none; border:none; color:var(--muted); font-family:'Satoshi',sans-serif; font-size:13px; cursor:pointer; }
 
-  .tab {
-    flex: 1; padding: 16px 8px; text-align: center;
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: 13px; letter-spacing: .5px;
-    cursor: pointer; color: var(--muted);
-    border-bottom: 3px solid transparent;
-    transition: all .25s;
-    background: none; border-top: none; border-left: none; border-right: none;
-  }
-  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-  .tab:hover:not(.active) { color: var(--text); }
-
-  /* ── PAGES ── */
-  .page { display: none; flex: 1; }
-  .page.active { display: block; }
-
-  /* ── BUILDER PAGE ── */
-  .builder { padding: 20px; max-width: 480px; margin: 0 auto; }
-
-  .section-title {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 12px; margin-top: 24px;
-  }
-  .section-title:first-child { margin-top: 0; }
-
-  /* Profile card */
-  .profile-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    display: flex; align-items: center; gap: 16px;
-    margin-bottom: 8px;
-  }
-
-  .avatar-wrap {
-    position: relative; flex-shrink: 0;
-  }
-  .avatar {
-    width: 72px; height: 72px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px; cursor: pointer; overflow: hidden;
-  }
-  .avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .avatar-edit {
-    position: absolute; bottom: 0; right: 0;
-    background: var(--accent); border-radius: 50%;
-    width: 22px; height: 22px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; cursor: pointer;
-  }
-
-  .profile-info { flex: 1; }
-  .profile-info input {
-    background: transparent; border: none; outline: none;
-    color: var(--text); width: 100%;
-    font-family: 'Syne', sans-serif;
-  }
-  .profile-info input:first-child {
-    font-size: 18px; font-weight: 800; margin-bottom: 4px;
-  }
-  .profile-info input:last-child {
-    font-size: 13px; color: var(--muted);
-    font-family: 'DM Sans', sans-serif;
-  }
-  .profile-info input::placeholder { color: var(--muted); opacity: .6; }
-
-  /* Input field */
-  .field {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 8px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .field input, .field textarea, .field select {
-    flex: 1; background: transparent; border: none; outline: none;
-    color: var(--text); font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-  }
-  .field textarea { resize: none; height: 60px; line-height: 1.5; }
-  .field select option { background: var(--card2); }
-  .field-icon { font-size: 18px; }
-  .field input::placeholder,
-  .field textarea::placeholder { color: var(--muted); opacity: .7; }
-
-  /* Link item */
-  .link-item {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 8px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .link-item-inputs { flex: 1; }
-  .link-item-inputs input {
-    background: transparent; border: none; outline: none;
-    color: var(--text); font-family: 'DM Sans', sans-serif;
-    font-size: 14px; width: 100%; display: block;
-  }
-  .link-item-inputs input:first-child { margin-bottom: 4px; font-weight: 500; }
-  .link-item-inputs input:last-child { font-size: 12px; color: var(--muted); }
-  .link-item-inputs input::placeholder { color: var(--muted); opacity: .6; }
-  .del-btn {
-    background: none; border: none; cursor: pointer;
-    color: var(--muted); font-size: 18px; padding: 4px;
-    transition: color .2s;
-  }
-  .del-btn:hover { color: #ff4444; }
-
-  /* Product item */
-  .product-item {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 8px;
-  }
-  .product-row { display: flex; gap: 10px; margin-bottom: 8px; }
-  .product-row input, .product-row select {
-    flex: 1; background: var(--card2); border: 1px solid var(--border);
-    border-radius: 8px; padding: 10px 12px;
-    color: var(--text); font-family: 'DM Sans', sans-serif;
-    font-size: 13px; outline: none;
-  }
-  .product-row select option { background: var(--card2); }
-  .product-row input::placeholder { color: var(--muted); opacity: .6; }
-  .product-upi {
-    display: flex; gap: 8px; align-items: center;
-  }
-  .product-upi input {
-    flex: 1; background: var(--card2); border: 1px solid var(--border);
-    border-radius: 8px; padding: 10px 12px;
-    color: var(--text); font-family: 'DM Sans', sans-serif;
-    font-size: 13px; outline: none;
-  }
-  .product-upi input::placeholder { color: var(--muted); opacity: .6; }
-  .upi-badge {
-    background: linear-gradient(135deg, #6c3fff, #a855f7);
-    color: white; font-size: 10px; font-weight: 700;
-    padding: 4px 8px; border-radius: 6px; letter-spacing: .5px;
-    white-space: nowrap;
-  }
-  .product-del { text-align: right; }
-
-  /* Buttons */
-  .btn {
-    display: flex; align-items: center; justify-content: center;
-    gap: 8px; width: 100%; padding: 14px;
-    border-radius: 12px; font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: 14px; cursor: pointer;
-    border: none; transition: all .2s; margin-bottom: 8px;
-  }
-  .btn-outline {
-    background: transparent;
-    border: 1.5px dashed var(--border);
-    color: var(--muted);
-  }
-  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white;
-  }
-  .btn-primary:hover { opacity: .9; transform: translateY(-1px); }
-  .btn-green {
-    background: var(--green);
-    color: #000;
-  }
-  .btn-green:hover { opacity: .9; }
-
-  /* ── PREVIEW PAGE ── */
-  .preview-wrap {
-    background: #060608;
-    min-height: 100vh;
-    display: flex; flex-direction: column; align-items: center;
-    padding: 0 0 60px;
-  }
-
-  .preview-header {
-    width: 100%; max-width: 420px;
-    padding: 48px 24px 24px;
-    text-align: center;
-  }
-  .preview-avatar {
-    width: 88px; height: 88px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    margin: 0 auto 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 36px; overflow: hidden;
-    box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent);
-  }
-  .preview-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .preview-name {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: 22px; margin-bottom: 6px;
-  }
-  .preview-bio {
-    font-size: 14px; color: var(--muted); line-height: 1.5;
-    max-width: 300px; margin: 0 auto;
-  }
-
-  .preview-body { width: 100%; max-width: 420px; padding: 0 20px; }
-
-  .preview-section-label {
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
-    color: var(--muted); margin: 24px 0 10px;
-  }
-
-  /* Preview link button */
-  .preview-link {
-    display: flex; align-items: center; gap: 14px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px; padding: 16px 18px;
-    margin-bottom: 8px; cursor: pointer;
-    transition: all .2s; text-decoration: none; color: var(--text);
-  }
-  .preview-link:hover {
-    border-color: var(--accent);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255,107,43,.15);
-  }
-  .preview-link-icon { font-size: 20px; }
-  .preview-link-text { flex: 1; font-size: 15px; font-weight: 500; }
-  .preview-link-arrow { color: var(--muted); font-size: 16px; }
-
-  /* Preview product card */
-  .preview-product {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px; padding: 18px;
-    margin-bottom: 10px;
-  }
-  .preview-product-top {
-    display: flex; justify-content: space-between;
-    align-items: flex-start; margin-bottom: 12px;
-  }
-  .preview-product-name {
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: 16px; flex: 1;
-  }
-  .preview-product-price {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: 18px; color: var(--accent);
-  }
-  .preview-product-type {
-    font-size: 11px; color: var(--muted); margin-bottom: 12px;
-    text-transform: uppercase; letter-spacing: 1px;
-  }
-  .pay-btn {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    background: linear-gradient(135deg, #6c3fff, #a855f7);
-    color: white; border: none; border-radius: 10px;
-    padding: 12px 18px; font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: 13px; cursor: pointer;
-    transition: all .2s; width: 100%;
-  }
-  .pay-btn:hover { opacity: .9; transform: translateY(-1px); }
-
-  /* UPI Modal */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,.85); backdrop-filter: blur(6px);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 999; padding: 20px;
-    opacity: 0; pointer-events: none; transition: opacity .25s;
-  }
-  .modal-overlay.open { opacity: 1; pointer-events: all; }
-
-  .modal {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-radius: 20px; padding: 28px;
-    max-width: 340px; width: 100%;
-    transform: translateY(20px); transition: transform .25s;
-  }
-  .modal-overlay.open .modal { transform: translateY(0); }
-
-  .modal-title {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: 18px; margin-bottom: 6px;
-  }
-  .modal-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
-
-  .upi-display {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 12px; padding: 16px;
-    text-align: center; margin-bottom: 16px;
-  }
-  .upi-id {
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: 16px; color: var(--accent2); margin-bottom: 4px;
-  }
-  .upi-hint { font-size: 12px; color: var(--muted); }
-
-  .amount-display {
-    background: linear-gradient(135deg, rgba(255,107,43,.15), rgba(255,179,71,.1));
-    border: 1px solid rgba(255,107,43,.3);
-    border-radius: 12px; padding: 14px;
-    text-align: center; margin-bottom: 16px;
-  }
-  .amount-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-  .amount-value {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: 24px; color: var(--accent);
-  }
-
-  .upi-apps {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 8px; margin-bottom: 16px;
-  }
-  .upi-app {
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: 10px; padding: 10px 6px;
-    text-align: center; cursor: pointer; transition: all .2s;
-  }
-  .upi-app:hover { border-color: var(--accent); }
-  .upi-app-icon { font-size: 22px; margin-bottom: 4px; }
-  .upi-app-name { font-size: 10px; color: var(--muted); }
-
-  .copy-upi {
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    background: transparent; border: 1.5px solid var(--border);
-    color: var(--text); border-radius: 10px; padding: 11px;
-    font-family: 'Syne', sans-serif; font-weight: 600;
-    font-size: 13px; cursor: pointer; width: 100%; margin-bottom: 10px;
-    transition: all .2s;
-  }
-  .copy-upi:hover { border-color: var(--accent2); color: var(--accent2); }
-
-  .modal-close {
-    background: none; border: none; color: var(--muted);
-    font-size: 13px; cursor: pointer; width: 100%; padding: 8px;
-    font-family: 'DM Sans', sans-serif; transition: color .2s;
-  }
-  .modal-close:hover { color: var(--text); }
-
-  /* ── SHARE PAGE ── */
-  .share-page { padding: 24px; max-width: 480px; margin: 0 auto; }
-
-  .share-url-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px; padding: 20px;
-    margin-bottom: 16px; text-align: center;
-  }
-  .share-url-label { font-size: 11px; color: var(--muted); margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; }
-  .share-url-value {
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: 15px; color: var(--accent2);
-    word-break: break-all;
-  }
-
-  .share-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-  .share-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 14px; padding: 18px;
-    text-align: center; cursor: pointer; transition: all .2s;
-  }
-  .share-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .share-card-icon { font-size: 28px; margin-bottom: 8px; }
-  .share-card-name {
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: 13px;
-  }
-  .share-card-desc { font-size: 11px; color: var(--muted); margin-top: 3px; }
-
-  /* Stats */
-  .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 16px; }
-  .stat-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; text-align: center;
-  }
-  .stat-value {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: 22px; color: var(--accent);
-  }
-  .stat-label { font-size: 10px; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: .5px; }
-
-  /* Toast */
-  .toast {
-    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: var(--green); color: #000;
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: 13px; padding: 12px 20px; border-radius: 40px;
-    opacity: 0; transition: all .3s; pointer-events: none; z-index: 9999;
-    white-space: nowrap;
-  }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* Empty states */
-  .empty {
-    text-align: center; padding: 30px 20px;
-    color: var(--muted); font-size: 14px;
-  }
-  .empty-icon { font-size: 32px; margin-bottom: 8px; }
-
-  /* Hidden file input */
-  #avatar-upload { display: none; }
-
-  /* Bottom nav spacing */
-  .bottom-space { height: 20px; }
+/* ── TOAST ── */
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--green); color:#000; font-family:'Clash Display',sans-serif; font-weight:700; font-size:13px; padding:12px 22px; border-radius:40px; opacity:0; transition:.3s; pointer-events:none; z-index:999; white-space:nowrap; }
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+#av-upload { display:none; }
 </style>
 </head>
 <body>
-<div class="app">
 
-  <!-- TABS -->
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('builder')">✏️ Build</button>
-    <button class="tab" onclick="switchTab('preview')">👁️ Preview</button>
-    <button class="tab" onclick="switchTab('share')">🚀 Share</button>
+<!-- VISITOR PAGE -->
+<div id="visitor-page">
+  <div class="v-header">
+    <div class="v-avatar" id="v-av">🧑</div>
+    <div class="v-name" id="v-name">Zeeshan</div>
+    <div class="v-bio" id="v-bio">Welcome to my page 👋</div>
+    <div class="v-socials" id="v-socials"></div>
   </div>
-
-  <!-- ══════════════════════════════════
-       TAB 1 — BUILDER
-  ══════════════════════════════════ -->
-  <div id="tab-builder" class="page active">
-    <div class="builder">
-
-      <!-- Profile -->
-      <div class="section-title">Your Profile</div>
-      <div class="profile-card">
-        <div class="avatar-wrap">
-          <div class="avatar" id="avatar-display" onclick="document.getElementById('avatar-upload').click()">
-            🧑
-          </div>
-          <div class="avatar-edit">📷</div>
-          <input type="file" id="avatar-upload" accept="image/*" onchange="handleAvatar(event)"/>
-        </div>
-        <div class="profile-info">
-          <input type="text" id="profile-name" placeholder="Your Name" value="Zeeshan"/>
-          <input type="text" id="profile-bio" placeholder="Short bio — what you do"/>
-        </div>
-      </div>
-
-      <!-- Theme colour -->
-      <div class="field">
-        <span class="field-icon">🎨</span>
-        <select id="theme-select" onchange="applyTheme(this.value)" style="flex:1">
-          <option value="orange">🔥 Orange Fire (Default)</option>
-          <option value="purple">💜 Purple Vibes</option>
-          <option value="green">💚 Green Fresh</option>
-          <option value="blue">💙 Blue Cool</option>
-          <option value="pink">🩷 Pink Desi</option>
-        </select>
-      </div>
-
-      <!-- Links -->
-      <div class="section-title">Your Links</div>
-      <div id="links-container"></div>
-      <button class="btn btn-outline" onclick="addLink()">＋ Add Link</button>
-
-      <!-- Products -->
-      <div class="section-title">Products to Sell</div>
-      <div id="products-container"></div>
-      <button class="btn btn-outline" onclick="addProduct()">＋ Add Product</button>
-
-      <!-- Save -->
-      <div style="margin-top:24px">
-        <button class="btn btn-primary" onclick="saveAndPreview()">💾 Save & Preview</button>
-      </div>
-
-      <div class="bottom-space"></div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════
-       TAB 2 — PREVIEW
-  ══════════════════════════════════ -->
-  <div id="tab-preview" class="page">
-    <div class="preview-wrap" id="preview-root">
-      <!-- Generated by JS -->
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════
-       TAB 3 — SHARE
-  ══════════════════════════════════ -->
-  <div id="tab-share" class="page">
-    <div class="share-page">
-
-      <div class="section-title">Your Page Stats</div>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value" id="stat-views">0</div>
-          <div class="stat-label">Views</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="stat-clicks">0</div>
-          <div class="stat-label">Clicks</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="stat-products">0</div>
-          <div class="stat-label">Products</div>
-        </div>
-      </div>
-
-      <div class="section-title">Your Link</div>
-      <div class="share-url-box">
-        <div class="share-url-label">Your DesiLink URL</div>
-        <div class="share-url-value" id="share-url-display">Save your profile first →</div>
-      </div>
-
-      <button class="btn btn-primary" onclick="copyLink()">📋 Copy Link</button>
-
-      <div class="section-title">Share On</div>
-      <div class="share-grid">
-        <div class="share-card" onclick="shareOn('instagram')">
-          <div class="share-card-icon">📸</div>
-          <div class="share-card-name">Instagram</div>
-          <div class="share-card-desc">Copy for bio</div>
-        </div>
-        <div class="share-card" onclick="shareOn('whatsapp')">
-          <div class="share-card-icon">💬</div>
-          <div class="share-card-name">WhatsApp</div>
-          <div class="share-card-desc">Share to contacts</div>
-        </div>
-        <div class="share-card" onclick="shareOn('twitter')">
-          <div class="share-card-icon">🐦</div>
-          <div class="share-card-name">Twitter/X</div>
-          <div class="share-card-desc">Post your link</div>
-        </div>
-        <div class="share-card" onclick="shareOn('telegram')">
-          <div class="share-card-icon">✈️</div>
-          <div class="share-card-name">Telegram</div>
-          <div class="share-card-desc">Share to group</div>
-        </div>
-      </div>
-
-      <div class="section-title">Download QR Code</div>
-      <button class="btn btn-outline" onclick="downloadQR()">📱 Generate QR Code</button>
-
-      <div class="bottom-space"></div>
-    </div>
-  </div>
-
+  <div id="v-links-wrap"></div>
+  <div id="v-products-wrap"></div>
+  <div class="v-footer">Made with <span>DesiLink</span> 🇮🇳</div>
 </div>
 
-<!-- UPI Payment Modal -->
-<div class="modal-overlay" id="upi-modal">
-  <div class="modal">
-    <div class="modal-title">💳 Pay via UPI</div>
-    <div class="modal-subtitle" id="modal-product-name">Product Name</div>
+<!-- Secret admin trigger: tap bottom-right corner 3 times -->
+<div class="admin-trigger" id="adm-trigger"></div>
 
-    <div class="amount-display">
-      <div class="amount-label">Amount to Pay</div>
-      <div class="amount-value" id="modal-amount">₹0</div>
-    </div>
-
-    <div class="upi-display">
-      <div class="upi-id" id="modal-upi-id">yourname@upi</div>
-      <div class="upi-hint">UPI ID — copy & pay in any app</div>
-    </div>
-
-    <div class="upi-apps">
-      <div class="upi-app" onclick="openUpiApp('gpay')">
-        <div class="upi-app-icon">🟢</div>
-        <div class="upi-app-name">GPay</div>
+<!-- ADMIN PAGE -->
+<div id="admin-page">
+  <div class="adm-header">
+    <button class="back-btn" onclick="goBack()">← Back</button>
+    <div class="adm-title">Admin Panel</div>
+    <div class="adm-badge">PRIVATE</div>
+  </div>
+  <div class="adm-body">
+    <div class="a-sec">Profile</div>
+    <div class="a-profile">
+      <div class="a-av" onclick="document.getElementById('av-upload').click()">
+        <span id="a-av-inner">🧑</span>
+        <div class="a-av-ov">📷</div>
       </div>
-      <div class="upi-app" onclick="openUpiApp('phonepe')">
-        <div class="upi-app-icon">🟣</div>
-        <div class="upi-app-name">PhonePe</div>
-      </div>
-      <div class="upi-app" onclick="openUpiApp('paytm')">
-        <div class="upi-app-icon">🔵</div>
-        <div class="upi-app-name">Paytm</div>
-      </div>
-      <div class="upi-app" onclick="openUpiApp('bhim')">
-        <div class="upi-app-icon">🇮🇳</div>
-        <div class="upi-app-name">BHIM</div>
+      <div class="a-ins">
+        <input type="text" id="a-name" placeholder="Your Name" value="Zeeshan"/>
+        <input type="text" id="a-bio" placeholder="Short bio"/>
       </div>
     </div>
+    <input type="file" id="av-upload" accept="image/*" onchange="handleAv(event)"/>
 
-    <button class="copy-upi" onclick="copyUpiId()">📋 Copy UPI ID</button>
-    <button class="modal-close" onclick="closeModal()">✕ Close</button>
+    <div class="a-sec">Social Accounts</div>
+    <div class="a-field"><span class="a-fi">📸</span><input type="text" id="s-ig" placeholder="Instagram @username"/></div>
+    <div class="a-field"><span class="a-fi">▶️</span><input type="text" id="s-yt" placeholder="YouTube channel URL or @handle"/></div>
+    <div class="a-field"><span class="a-fi">🐦</span><input type="text" id="s-tw" placeholder="Twitter/X @username"/></div>
+    <div class="a-field"><span class="a-fi">💬</span><input type="text" id="s-wa" placeholder="WhatsApp number (91XXXXXXXXXX)"/></div>
+    <div class="a-field"><span class="a-fi">✈️</span><input type="text" id="s-tg" placeholder="Telegram @username or link"/></div>
+
+    <div class="a-sec">Custom Links</div>
+    <div id="a-links"></div>
+    <button class="btn btn-dash" onclick="addLink()">＋ Add Link</button>
+
+    <div class="a-sec">Products</div>
+    <div id="a-prods"></div>
+    <button class="btn btn-dash" onclick="addProd()">＋ Add Product</button>
+
+    <div style="margin-top:22px">
+      <button class="btn btn-primary" onclick="saveAll()">💾 Save & Update Page</button>
+      <button class="btn btn-dash" onclick="changePw()">🔑 Change Password</button>
+    </div>
+    <div style="height:40px"></div>
   </div>
 </div>
 
-<!-- Toast -->
+<!-- Password Screen -->
+<div id="pw-screen">
+  <div class="pw-box">
+    <div class="pw-icon">🔐</div>
+    <div class="pw-title">Admin Access</div>
+    <div class="pw-sub">Enter password to edit your page</div>
+    <input type="password" class="pw-inp" id="pw-inp" placeholder="Password"
+      onkeydown="if(event.key==='Enter')checkPw()"/>
+    <button class="pw-btn" onclick="checkPw()">Enter →</button>
+    <div class="pw-err" id="pw-err">Wrong password. Try again.</div>
+  </div>
+</div>
+
+<!-- UPI Modal -->
+<div class="m-overlay" id="upi-m">
+  <div class="m-box">
+    <div class="m-title">💳 Pay via UPI</div>
+    <div class="m-sub" id="m-pname">Product</div>
+    <div class="m-amount">
+      <div class="m-amount-lbl">Amount to Pay</div>
+      <div class="m-amount-val" id="m-amt">₹0</div>
+    </div>
+    <div class="m-upi">
+      <div class="m-upi-val" id="m-upi">yourname@upi</div>
+      <div class="m-upi-hint">Copy UPI ID and pay in any app below</div>
+    </div>
+    <div class="m-apps">
+      <div class="m-app" onclick="openApp('gpay')"><div class="m-app-icon">🟢</div><div class="m-app-name">GPay</div></div>
+      <div class="m-app" onclick="openApp('phonepe')"><div class="m-app-icon">🟣</div><div class="m-app-name">PhonePe</div></div>
+      <div class="m-app" onclick="openApp('paytm')"><div class="m-app-icon">🔵</div><div class="m-app-name">Paytm</div></div>
+      <div class="m-app" onclick="openApp('bhim')"><div class="m-app-icon">🇮🇳</div><div class="m-app-name">BHIM</div></div>
+    </div>
+    <button class="m-copy" onclick="copyUpi()">📋 Copy UPI ID</button>
+    <button class="m-close" onclick="closeM()">✕ Close</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-// ── STATE ──
-let state = {
-  name: '', bio: '', avatarSrc: '',
-  links: [], products: [],
-  theme: 'orange',
-  clicks: 0
-};
+const KEY = 'desilink_v2';
+let D = { name:'Zeeshan', bio:'Welcome to my page 👋', av:'', socials:{ig:'',yt:'',tw:'',wa:'',tg:''}, links:[], products:[], pw:'1234' };
+let curProd = null, avData = '', tapCount = 0, tapTimer = null;
 
-let currentUpiProduct = null;
+function load() { try { const s=localStorage.getItem(KEY); if(s) D={...D,...JSON.parse(s)}; } catch(e){} }
+function save() { try { localStorage.setItem(KEY,JSON.stringify(D)); } catch(e){} }
 
-// ── THEMES ──
-const themes = {
-  orange: { accent: '#ff6b2b', accent2: '#ffb347' },
-  purple: { accent: '#8b5cf6', accent2: '#c084fc' },
-  green:  { accent: '#00c853', accent2: '#69f0ae' },
-  blue:   { accent: '#2979ff', accent2: '#82b1ff' },
-  pink:   { accent: '#e91e8c', accent2: '#f48fb1' },
-};
+// ── VISITOR RENDER ──
+function renderV() {
+  document.getElementById('v-name').textContent = D.name || 'Your Name';
+  document.getElementById('v-bio').textContent = D.bio || '';
+  const av = document.getElementById('v-av');
+  av.innerHTML = D.av ? `<img src="${D.av}" alt=""/>` : '🧑';
 
-function applyTheme(name) {
-  const t = themes[name] || themes.orange;
-  document.documentElement.style.setProperty('--accent', t.accent);
-  document.documentElement.style.setProperty('--accent2', t.accent2);
-  state.theme = name;
+  // Socials
+  const sm = [
+    D.socials.ig && { icon:'📸', url:`https://instagram.com/${D.socials.ig.replace('@','')}` },
+    D.socials.yt && { icon:'▶️', url: D.socials.yt.startsWith('http')?D.socials.yt:`https://youtube.com/@${D.socials.yt.replace('@','')}` },
+    D.socials.tw && { icon:'🐦', url:`https://x.com/${D.socials.tw.replace('@','')}` },
+    D.socials.wa && { icon:'💬', url:`https://wa.me/${D.socials.wa}` },
+    D.socials.tg && { icon:'✈️', url: D.socials.tg.startsWith('http')?D.socials.tg:`https://t.me/${D.socials.tg.replace('@','')}` },
+  ].filter(Boolean);
+  document.getElementById('v-socials').innerHTML = sm.map(s=>`<a class="v-social" href="${s.url}" target="_blank">${s.icon}</a>`).join('');
+
+  // Links
+  const lw = document.getElementById('v-links-wrap');
+  if (D.links.length) {
+    lw.innerHTML = `<div class="v-label">🔗 Links</div>` +
+      D.links.map((l,i)=>`<a class="v-link" href="${l.url||'#'}" target="_blank" style="animation-delay:${i*.07}s">
+        <span class="v-link-emoji">${l.em||'🔗'}</span>
+        <span class="v-link-text">${l.title||'Link'}</span>
+        <span class="v-link-arr">›</span></a>`).join('');
+  } else { lw.innerHTML=''; }
+
+  // Products
+  const pw2 = document.getElementById('v-products-wrap');
+  if (D.products.length) {
+    pw2.innerHTML = `<div class="v-label">🛍️ Products</div>` +
+      D.products.map((p,i)=>`<div class="v-product" style="animation-delay:${i*.07}s">
+        <div class="v-product-top">
+          <div class="v-product-name">${p.name||'Product'}</div>
+          <div class="v-product-price">₹${p.price||'0'}</div>
+        </div>
+        <div class="v-product-type">${p.type||'Product'}</div>
+        <button class="v-pay-btn" onclick="openM(${i})">🇮🇳 Pay via UPI</button>
+      </div>`).join('');
+  } else { pw2.innerHTML=''; }
 }
 
-// ── TABS ──
-function switchTab(name) {
-  document.querySelectorAll('.tab').forEach((t,i) => {
-    t.classList.toggle('active', ['builder','preview','share'][i] === name);
-  });
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'preview') renderPreview();
-  if (name === 'share') renderShare();
+// ── ADMIN TRIGGER ──
+document.getElementById('adm-trigger').addEventListener('click',()=>{
+  tapCount++; clearTimeout(tapTimer);
+  tapTimer=setTimeout(()=>tapCount=0,2000);
+  if(tapCount>=3){ tapCount=0; openPwScreen(); }
+});
+
+function openPwScreen() {
+  document.getElementById('pw-screen').classList.add('open');
+  document.getElementById('pw-inp').value='';
+  document.getElementById('pw-err').style.display='none';
+  setTimeout(()=>document.getElementById('pw-inp').focus(),100);
 }
 
-// ── AVATAR ──
-function handleAvatar(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    state.avatarSrc = ev.target.result;
-    document.getElementById('avatar-display').innerHTML = `<img src="${ev.target.result}" alt="avatar"/>`;
-  };
-  reader.readAsDataURL(file);
+function checkPw() {
+  if(document.getElementById('pw-inp').value===D.pw){
+    document.getElementById('pw-screen').classList.remove('open');
+    openAdmin();
+  } else {
+    document.getElementById('pw-err').style.display='block';
+    document.getElementById('pw-inp').value='';
+  }
+}
+
+function openAdmin() {
+  document.getElementById('visitor-page').style.display='none';
+  document.getElementById('admin-page').style.display='block';
+  fillAdmin();
+}
+
+function goBack() {
+  saveAll();
+  document.getElementById('admin-page').style.display='none';
+  document.getElementById('visitor-page').style.display='block';
+  renderV();
+}
+
+// ── FILL ADMIN ──
+function fillAdmin() {
+  document.getElementById('a-name').value=D.name||'';
+  document.getElementById('a-bio').value=D.bio||'';
+  document.getElementById('s-ig').value=D.socials.ig||'';
+  document.getElementById('s-yt').value=D.socials.yt||'';
+  document.getElementById('s-tw').value=D.socials.tw||'';
+  document.getElementById('s-wa').value=D.socials.wa||'';
+  document.getElementById('s-tg').value=D.socials.tg||'';
+  if(D.av) document.getElementById('a-av-inner').innerHTML=`<img src="${D.av}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`;
+  renderALinks(); renderAProds();
 }
 
 // ── LINKS ──
-function addLink() {
-  const id = Date.now();
-  state.links.push({ id, title: '', url: '' });
-  renderLinks();
-}
-
-function removeLink(id) {
-  state.links = state.links.filter(l => l.id !== id);
-  renderLinks();
-}
-
-function renderLinks() {
-  const c = document.getElementById('links-container');
-  if (state.links.length === 0) {
-    c.innerHTML = `<div class="empty"><div class="empty-icon">🔗</div>No links yet. Add your first link!</div>`;
-    return;
-  }
-  c.innerHTML = state.links.map(l => `
-    <div class="link-item">
-      <span class="field-icon">🔗</span>
-      <div class="link-item-inputs">
-        <input type="text" placeholder="Button Label (e.g. My YouTube)" value="${l.title}"
-          oninput="updateLink(${l.id},'title',this.value)"/>
-        <input type="text" placeholder="https://..." value="${l.url}"
-          oninput="updateLink(${l.id},'url',this.value)"/>
+function addLink(){ D.links.push({title:'',url:'',em:'🔗'}); renderALinks(); }
+function delLink(i){ D.links.splice(i,1); renderALinks(); }
+function renderALinks(){
+  document.getElementById('a-links').innerHTML = D.links.map((l,i)=>`
+    <div class="a-link-row">
+      <input type="text" value="${l.em||'🔗'}" style="width:28px;text-align:center;font-size:17px;background:transparent;border:none;outline:none;color:var(--text)"
+        oninput="D.links[${i}].em=this.value"/>
+      <div class="a-link-ins">
+        <input type="text" placeholder="Label" value="${l.title||''}" oninput="D.links[${i}].title=this.value"/>
+        <input type="text" placeholder="https://..." value="${l.url||''}" oninput="D.links[${i}].url=this.value"/>
       </div>
-      <button class="del-btn" onclick="removeLink(${l.id})">🗑️</button>
-    </div>
-  `).join('');
-}
-
-function updateLink(id, field, val) {
-  const l = state.links.find(x => x.id === id);
-  if (l) l[field] = val;
+      <button class="del-btn" onclick="delLink(${i})">🗑️</button>
+    </div>`).join('');
 }
 
 // ── PRODUCTS ──
-function addProduct() {
-  const id = Date.now();
-  state.products.push({ id, name: '', price: '', type: 'Digital Product', upi: '' });
-  renderProducts();
-}
-
-function removeProduct(id) {
-  state.products = state.products.filter(p => p.id !== id);
-  renderProducts();
-}
-
-function renderProducts() {
-  const c = document.getElementById('products-container');
-  if (state.products.length === 0) {
-    c.innerHTML = `<div class="empty"><div class="empty-icon">🛍️</div>No products yet. Add something to sell!</div>`;
-    return;
-  }
-  c.innerHTML = state.products.map(p => `
-    <div class="product-item">
-      <div class="product-row">
-        <input type="text" placeholder="Product Name" value="${p.name}"
-          oninput="updateProduct(${p.id},'name',this.value)"/>
-        <input type="text" placeholder="₹ Price" value="${p.price}" style="max-width:100px"
-          oninput="updateProduct(${p.id},'price',this.value)"/>
+function addProd(){ D.products.push({name:'',price:'',type:'Digital Product',upi:''}); renderAProds(); }
+function delProd(i){ D.products.splice(i,1); renderAProds(); }
+function renderAProds(){
+  document.getElementById('a-prods').innerHTML = D.products.map((p,i)=>`
+    <div class="a-prod-row">
+      <div class="a-prod-r">
+        <input type="text" placeholder="Product name" value="${p.name||''}" oninput="D.products[${i}].name=this.value"/>
+        <input type="text" placeholder="₹ Price" value="${p.price||''}" style="max-width:90px" oninput="D.products[${i}].price=this.value"/>
       </div>
-      <div class="product-row">
-        <select onchange="updateProduct(${p.id},'type',this.value)">
+      <div class="a-prod-r">
+        <select onchange="D.products[${i}].type=this.value">
           <option ${p.type==='Digital Product'?'selected':''}>Digital Product</option>
           <option ${p.type==='Physical Product'?'selected':''}>Physical Product</option>
           <option ${p.type==='Service'?'selected':''}>Service</option>
@@ -748,173 +388,67 @@ function renderProducts() {
           <option ${p.type==='Consultation'?'selected':''}>Consultation</option>
         </select>
       </div>
-      <div class="product-upi">
-        <input type="text" placeholder="Your UPI ID (e.g. name@gpay)" value="${p.upi}"
-          oninput="updateProduct(${p.id},'upi',this.value)"/>
+      <div class="a-upi-r">
+        <input type="text" placeholder="UPI ID (e.g. name@gpay)" value="${p.upi||''}" oninput="D.products[${i}].upi=this.value"/>
         <span class="upi-badge">UPI</span>
+        <button class="del-btn" onclick="delProd(${i})">🗑️</button>
       </div>
-      <div class="product-del" style="margin-top:10px">
-        <button class="del-btn" onclick="removeProduct(${p.id})" style="font-size:12px">🗑️ Remove</button>
-      </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-function updateProduct(id, field, val) {
-  const p = state.products.find(x => x.id === id);
-  if (p) p[field] = val;
+// ── SAVE ──
+function saveAll(){
+  D.name=document.getElementById('a-name').value;
+  D.bio=document.getElementById('a-bio').value;
+  D.socials={
+    ig:document.getElementById('s-ig').value,
+    yt:document.getElementById('s-yt').value,
+    tw:document.getElementById('s-tw').value,
+    wa:document.getElementById('s-wa').value,
+    tg:document.getElementById('s-tg').value
+  };
+  if(avData) D.av=avData;
+  save(); showToast('✅ Saved!');
 }
 
-// ── SAVE & PREVIEW ──
-function saveAndPreview() {
-  state.name = document.getElementById('profile-name').value;
-  state.bio = document.getElementById('profile-bio').value;
-  // Sync links & products from DOM inputs
-  state.links.forEach(l => {
-    const els = document.querySelectorAll('.link-item');
-    // already updated via oninput
-  });
-  showToast('✅ Saved! Switching to preview…');
-  setTimeout(() => switchTab('preview'), 800);
+function changePw(){
+  const np=prompt('Enter new password (min 4 chars):');
+  if(np&&np.length>=4){ D.pw=np; save(); showToast('🔑 Password updated!'); }
+  else if(np) showToast('⚠️ Min 4 characters');
 }
 
-// ── RENDER PREVIEW ──
-function renderPreview() {
-  state.name = document.getElementById('profile-name').value || 'Your Name';
-  state.bio = document.getElementById('profile-bio').value || 'Add a short bio';
-
-  const avatarHTML = state.avatarSrc
-    ? `<img src="${state.avatarSrc}" alt="avatar"/>`
-    : '🧑';
-
-  const linksHTML = state.links.length === 0
-    ? '<div class="empty" style="padding:16px 0"><div class="empty-icon">🔗</div>Add links in the Build tab</div>'
-    : state.links.map(l => `
-        <a class="preview-link" href="${l.url || '#'}" target="_blank"
-           onclick="trackClick()">
-          <span class="preview-link-icon">🔗</span>
-          <span class="preview-link-text">${l.title || 'Untitled Link'}</span>
-          <span class="preview-link-arrow">›</span>
-        </a>
-      `).join('');
-
-  const productsHTML = state.products.length === 0
-    ? '<div class="empty" style="padding:16px 0"><div class="empty-icon">🛍️</div>Add products in the Build tab</div>'
-    : state.products.map(p => `
-        <div class="preview-product">
-          <div class="preview-product-top">
-            <div class="preview-product-name">${p.name || 'Product'}</div>
-            <div class="preview-product-price">₹${p.price || '0'}</div>
-          </div>
-          <div class="preview-product-type">${p.type}</div>
-          <button class="pay-btn" onclick="openPayModal(${p.id})">
-            🇮🇳 Pay via UPI
-          </button>
-        </div>
-      `).join('');
-
-  document.getElementById('preview-root').innerHTML = `
-    <div class="preview-header">
-      <div class="preview-avatar">${avatarHTML}</div>
-      <div class="preview-name">${state.name}</div>
-      <div class="preview-bio">${state.bio}</div>
-    </div>
-    <div class="preview-body">
-      ${state.links.length > 0 ? '<div class="preview-section-label">🔗 Links</div>' : ''}
-      ${linksHTML}
-      ${state.products.length > 0 ? '<div class="preview-section-label">🛍️ Products</div>' : ''}
-      ${productsHTML}
-      <div style="text-align:center;margin-top:32px;font-size:11px;color:var(--muted)">
-        Made with DesiLink 🇮🇳
-      </div>
-    </div>
-  `;
-
-  // track view
-  state.clicks++;
-  document.getElementById('stat-views').textContent = state.clicks;
-  document.getElementById('stat-products').textContent = state.products.length;
-}
-
-function trackClick() {
-  const el = document.getElementById('stat-clicks');
-  el.textContent = parseInt(el.textContent || 0) + 1;
+// ── AVATAR ──
+function handleAv(e){
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=ev=>{ avData=ev.target.result; document.getElementById('a-av-inner').innerHTML=`<img src="${avData}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`; };
+  r.readAsDataURL(f);
 }
 
 // ── UPI MODAL ──
-function openPayModal(productId) {
-  const p = state.products.find(x => x.id === productId);
-  if (!p) return;
-  currentUpiProduct = p;
-  document.getElementById('modal-product-name').textContent = p.name || 'Product';
-  document.getElementById('modal-amount').textContent = `₹${p.price || '0'}`;
-  document.getElementById('modal-upi-id').textContent = p.upi || 'yourname@upi';
-  document.getElementById('upi-modal').classList.add('open');
+function openM(i){
+  const p=D.products[i]; if(!p) return; curProd=p;
+  document.getElementById('m-pname').textContent=p.name||'Product';
+  document.getElementById('m-amt').textContent=`₹${p.price||'0'}`;
+  document.getElementById('m-upi').textContent=p.upi||'No UPI ID set';
+  document.getElementById('upi-m').classList.add('open');
 }
-
-function closeModal() {
-  document.getElementById('upi-modal').classList.remove('open');
-  currentUpiProduct = null;
+function closeM(){ document.getElementById('upi-m').classList.remove('open'); curProd=null; }
+function copyUpi(){
+  if(!curProd?.upi){ showToast('⚠️ No UPI ID set'); return; }
+  navigator.clipboard.writeText(curProd.upi).then(()=>showToast('📋 UPI ID copied!'));
 }
-
-function copyUpiId() {
-  const upi = currentUpiProduct?.upi || '';
-  if (!upi) { showToast('⚠️ No UPI ID set'); return; }
-  navigator.clipboard.writeText(upi).then(() => showToast('📋 UPI ID copied!'));
-}
-
-function openUpiApp(app) {
-  if (!currentUpiProduct) return;
-  const upi = currentUpiProduct.upi || '';
-  const amount = currentUpiProduct.price || '0';
-  const name = encodeURIComponent(currentUpiProduct.name || 'Product');
-  // Standard UPI deep link
-  const upiUrl = `upi://pay?pa=${encodeURIComponent(upi)}&pn=${name}&am=${amount}&cu=INR`;
-  window.location.href = upiUrl;
+function openApp(app){
+  if(!curProd) return;
+  window.location.href=`upi://pay?pa=${encodeURIComponent(curProd.upi||'')}&pn=${encodeURIComponent(curProd.name||'')}&am=${curProd.price||'0'}&cu=INR`;
   showToast('Opening UPI app…');
 }
 
-// ── SHARE ──
-function renderShare() {
-  document.getElementById('share-url-display').textContent = `https://sahil906.github.io/zeeshan-desilink/`;
-}
-
-function copyLink() {
-  const url = document.getElementById('share-url-display').textContent;
-  navigator.clipboard.writeText(url).then(() => showToast('📋 Link copied!'));
-}
-
-function shareOn(platform) {
-  const url = document.getElementById('share-url-display').textContent;
-  const text = `Check out my page: ${url}`;
-  const urls = {
-    instagram: null, // Instagram doesn't allow direct share URL; just copy
-    whatsapp: `https://wa.me/?text=${encodeURIComponent(text)}`,
-    twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,
-    telegram: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent('Check out my page!')}`,
-  };
-  if (platform === 'instagram') {
-    navigator.clipboard.writeText(url).then(() => showToast('📋 Link copied — paste in Instagram bio!'));
-    return;
-  }
-  if (urls[platform]) window.open(urls[platform], '_blank');
-}
-
-function downloadQR() {
-  showToast('📱 QR feature coming soon!');
-}
-
 // ── TOAST ──
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
 
 // ── INIT ──
-renderLinks();
-renderProducts();
+load(); renderV();
 </script>
 </body>
 </html>
